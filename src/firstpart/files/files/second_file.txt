@@ -1,0 +1,1 @@
+This phrase will be written to the external file
