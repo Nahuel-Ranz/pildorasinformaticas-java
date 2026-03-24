@@ -12,14 +12,14 @@ public class ThreadBalls implements Runnable {
 	
 	@Override
 	public void run() {
-		while(!Thread.interrupted()) {
-		//while(!Thread.currentThread().isInterrupted()) {
+		//while(!Thread.interrupted()) {
+		while(!Thread.currentThread().isInterrupted()) {
 			this.ball.moveBall(this.component.getBounds());
-			this.component.paint(component.getGraphics());
+			this.component.repaint();
 			
 			try { Thread.sleep(3); }
 			catch(InterruptedException e) {
-				Thread.interrupted();
+				Thread.currentThread().interrupt();
 			}
 		}
 	}

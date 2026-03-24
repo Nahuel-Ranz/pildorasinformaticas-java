@@ -4,16 +4,22 @@ import java.awt.Container;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import firstpart.graphics.Utils;
 
 public class ReboundFrame extends JFrame {
 	private static final long serialVersionUID = 2234224L;
+	private static int count = 1;
 	private BallPannel ballPannel;
 	private JPanel btnPannel;
+	private JMenu menu;
+	private JMenuBar bar;
 	private JButton btn;
 	private Ball ball;
 	private Runnable runnable;
-	private Thread thread;
 	
 	public ReboundFrame() {
 		super.setSize(400,350);
@@ -21,13 +27,18 @@ public class ReboundFrame extends JFrame {
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		super.setTitle ("Rebounds");
 		
+		this.bar = new JMenuBar();
+		this.menu = new JMenu("Threads");
+		
+		this.bar.add(this.menu);
+		this.setJMenuBar(this.bar);
+		
 		this.ballPannel=new BallPannel();
 		super.add(this.ballPannel, BorderLayout.CENTER);
 		
 		this.btnPannel = new JPanel();
 		this.addButton(btnPannel, "PLAY", _ -> this.play());
 		this.addButton(btnPannel, "EXIT", _ -> System.exit(0));
-		this.addButton(btnPannel, "STOP", _ -> this.stop());
 		
 		super.add(btnPannel, BorderLayout.SOUTH);
 	}
@@ -43,12 +54,20 @@ public class ReboundFrame extends JFrame {
 		this.ballPannel.add(this.ball);
 		
 		this.runnable = new ThreadBalls(ballPannel, ball);
-		this.thread = new Thread(runnable);
-		this.thread.start();
-	}
-	
-	public void stop() {
-		// this.thread.stop(); deprecated.
-		this.thread.interrupt();
+		Thread thread = new Thread(runnable);
+		JMenuItem item = new JMenuItem("Thread_%d".formatted(count++));
+		
+		item.addActionListener(_ -> {
+			thread.interrupt();
+			this.menu.remove(item);
+			this.menu.revalidate();
+			this.menu.repaint();
+		});
+		
+		Utils.addItemsToMenu(this.menu, item);
+		this.menu.revalidate();
+		this.menu.repaint();
+		
+		thread.start();
 	}
 }
