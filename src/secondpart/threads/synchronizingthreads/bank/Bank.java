@@ -1,5 +1,7 @@
 package secondpart.threads.synchronizingthreads.bank;
 import firstpart.graphics.Utils;
+
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -7,15 +9,17 @@ public class Bank {
 
 	private final double[] accounts;
 	private Lock lock;
+	private Condition sufficientBalance;
 	
 	public Bank() {
 		this.accounts = new double[100];
 		for(int i=0; i<accounts.length; i++) this.accounts[i] = 2000;
 		
 		this.lock = new ReentrantLock();
+		this.sufficientBalance = lock.newCondition();
 	}
 	
-	public void transfer(int origin, int target, double  amount) {
+	public void transfer(int origin, int target, double amount) throws InterruptedException {
 		this.lock.lock();
 		try {
 			
@@ -26,7 +30,7 @@ public class Bank {
 				target < 0 ||
 				amount <= 0 ||
 				amount > this.accounts[origin]
-			) return;
+			) this.sufficientBalance.await();
 			
 			this.accounts[origin] -= amount;
 			
@@ -43,6 +47,8 @@ public class Bank {
 				target,
 				getTotalSalaries()
 			);
+			
+			sufficientBalance.signalAll();
 		} finally { this.lock.unlock(); }
 		
 	}
