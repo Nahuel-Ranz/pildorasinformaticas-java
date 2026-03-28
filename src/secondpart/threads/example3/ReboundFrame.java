@@ -8,7 +8,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import firstpart.graphics.Utils;
 
 public class ReboundFrame extends JFrame {
 	private static final long serialVersionUID = 2234224L;
@@ -31,7 +30,7 @@ public class ReboundFrame extends JFrame {
 		this.menu = new JMenu("Threads");
 		
 		this.bar.add(this.menu);
-		this.setJMenuBar(this.bar);
+		super.setJMenuBar(this.bar);
 		
 		this.ballPannel=new BallPannel();
 		super.add(this.ballPannel, BorderLayout.CENTER);
@@ -64,7 +63,7 @@ public class ReboundFrame extends JFrame {
 			this.menu.repaint();
 		});
 		
-		Utils.addItemsToMenu(this.menu, item);
+		this.menu.add(item);
 		this.menu.revalidate();
 		this.menu.repaint();
 		

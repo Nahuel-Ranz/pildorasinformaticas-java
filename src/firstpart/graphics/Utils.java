@@ -82,4 +82,15 @@ public class Utils {
 	public static void addButtonsToPanel(JPanel pannel, JButton... buttons) {
 		Arrays.stream(buttons).forEach( h -> pannel.add(h));
 	}
+	
+	public static int randomBetween(int m, int M) {
+		return (int)(Math.random()*(++M-m)+m);
+	}
+	
+	public static double round(double number, double decimals) {
+		decimals = Math.pow(10, decimals);
+		
+		
+		return Math.round(number*decimals)/decimals;
+	}
 }
