@@ -8,7 +8,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-
 import static java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment;
 
 
@@ -39,7 +38,7 @@ public class Utils {
 	
 	public static void allFonts() {
 		String []fonts = getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		Arrays.stream(fonts).forEach(font -> println(font));
+		Arrays.stream(fonts).forEach(Utils::println);
 	}
 	
 	public static String[] getFonts() {
@@ -64,23 +63,23 @@ public class Utils {
 	}
 	
 	public static void addMenusToBar(JMenuBar bar, JMenu... menus) {
-		Arrays.stream(menus).forEach( menu -> bar.add(menu));
+		Arrays.stream(menus).forEach(bar::add);
 	}
 	
 	public static void addItemsToMenu(JMenu menu, JMenuItem... items) {
-		Arrays.stream(items).forEach( item -> menu.add(item));
+		Arrays.stream(items).forEach(menu::add);
 	}
 	
 	public static void addItemsToPopup(JPopupMenu popup, JMenuItem... items) {
-		Arrays.stream(items).forEach( item -> popup.add(item));
+		Arrays.stream(items).forEach(popup::add);
 	}
 	
 	public static void addHorizontalBoxesInVerticalBox(Box verticalBox, Box... horizontals) {
-		Arrays.stream(horizontals).forEach( h -> verticalBox.add(h));
+		Arrays.stream(horizontals).forEach(verticalBox::add);
 	}
 	
 	public static void addButtonsToPanel(JPanel pannel, JButton... buttons) {
-		Arrays.stream(buttons).forEach( h -> pannel.add(h));
+		Arrays.stream(buttons).forEach(pannel::add);
 	}
 	
 	public static int randomBetween(int m, int M) {
@@ -89,7 +88,6 @@ public class Utils {
 	
 	public static double round(double number, double decimals) {
 		decimals = Math.pow(10, decimals);
-		
 		
 		return Math.round(number*decimals)/decimals;
 	}
