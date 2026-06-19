@@ -1,9 +1,11 @@
-package secondpart.sockets.firstchat.client;
+package secondpart.sockets.firstchat;
+import java.io.Serializable;
 
-public class Origin {
+public class MessageWrapped implements Serializable {
+	private static final long serialVersionUID = 23234L;
 	private String nick, message, ip;
 	
-	public Origin(String nick, String message, String ip) {
+	public MessageWrapped(String nick, String message, String ip) {
 		this.nick = nick;
 		this.message = message;
 		this.ip = ip;

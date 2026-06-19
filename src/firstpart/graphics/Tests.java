@@ -2,10 +2,11 @@ package firstpart.graphics;
 import java.util.function.Function;
 import java.util.ArrayList;
 import java.util.function.BiPredicate;
+import secondpart.sockets.firstchat.MessageWrapped;
 
 public class Tests {
 	public static void main(String []args) {
-		Function<String, Integer> f = Integer::parseInt;
+		/*Function<String, Integer> f = Integer::parseInt;
 		IO.println(f.apply("4")+6);
 		
 		
@@ -21,7 +22,8 @@ public class Tests {
 		nums.add("2");
 		nums.add("3");
 		ArrayList<Double> doub = new ArrayList<Double>();
-		nums.forEach(n -> doub.add(Double.parseDouble(n)));
+		nums.forEach(n -> doub.add(Double.parseDouble(n)));*/
+		System.out.println("" instanceof String);
 	}
 }
 
