@@ -74,8 +74,11 @@ public class ClientPannel extends JPanel implements Runnable {
 				) {
 					Object input = ois.readObject();
 					if(input instanceof MessageWrapped) {
-						this.data = (MessageWrapped) ois.readObject();
+						this.data = (MessageWrapped) input;
 						this.chatField.append("%s: %s -> Me\n".formatted(data.getNick(), data.getMessage()));
+					} else if(input instanceof String) {
+						this.ips.removeItem((String)input);
+						this.clients.remove((String)input);
 					} else {
 						Thread.sleep(1000);
 						this.clients = (HashMap<String, String>) input;

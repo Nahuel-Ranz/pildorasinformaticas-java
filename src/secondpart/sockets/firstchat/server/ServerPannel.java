@@ -39,20 +39,36 @@ public class ServerPannel extends JPanel implements Runnable {
 				) {					
 					Object input = ois.readObject();
 					
-					if(input == null) {
+					if(input instanceof String) {
+						String into = (String) input;
 						String user = (String)ois.readObject();
 						String ip = socket.getInetAddress().getHostAddress();
-						
-						this.clients.put(ip, user);
-						this.area.append("Connected: %s\n".formatted(user));
-						
-						this.clients.forEach((k, v) -> {
-							try (
-								Socket cli = new Socket(k, 9294);
-								ObjectOutputStream oos = new ObjectOutputStream(cli.getOutputStream());
-							) { oos.writeObject(this.clients); }
-							catch(Exception e) { e.printStackTrace(); }
-						});
+
+						switch(into) {
+							case "CONNECT":
+								this.clients.put(ip, user);
+								this.area.append("Connected: %s\n".formatted(user));
+								this.clients.forEach((k, v) -> {
+									try (
+										Socket cli = new Socket(k, 9294);
+										ObjectOutputStream oos = new ObjectOutputStream(cli.getOutputStream());
+									) { oos.writeObject(this.clients); }
+									catch(Exception e) { e.printStackTrace(); }
+								});
+							break;
+							case "DISCONNECT":
+								this.clients.remove(ip);
+								this.area.append("Disconnected: %s\n".formatted(user));
+								this.clients.forEach((k, v) -> {
+									try (
+										Socket cli = new Socket(k, 9294);
+										ObjectOutputStream oos = new ObjectOutputStream(cli.getOutputStream());
+									) {
+										oos.writeObject(ip);
+									} catch (Exception e) { e.printStackTrace(); }
+								});
+							break;
+						}
 					} else {					
 						this.data = (MessageWrapped) input;
 						this.area.append(this.data+ "\n");
